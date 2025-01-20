@@ -18,3 +18,8 @@
 > ping c1
 > ping c2
 
+## Exercise 4: Volumes
+> docker volume create myvolume
+> docker volume ls
+> docker run -it --mount source=myvolume,target=/myvolume ubuntu
+> docker run -it --mount type=bind,source=c:\Repos,target=/repos ubuntu
