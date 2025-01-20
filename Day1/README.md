@@ -23,3 +23,7 @@
 > docker volume ls
 > docker run -it --mount source=myvolume,target=/myvolume ubuntu
 > docker run -it --mount type=bind,source=c:\Repos,target=/repos ubuntu
+
+## Exercise 5: Docker Compose
+> docker-compose up &
+> docker-compose down &
