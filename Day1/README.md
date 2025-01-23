@@ -27,3 +27,13 @@
 ## Exercise 5: Docker Compose
 - docker-compose up &
 - docker-compose down &
+
+## Exercise 6: 
+- Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+- choco install kubernetes-cli kubectx kubens minikube
+- kubectl get nodes -o wide
+- kubectl get namespaces 
+- kubectl get pods
+- kubectl run nginx --image=nginx
+- kubectl get pods
+- kubectl port-forward pod/nginx 8080:80
