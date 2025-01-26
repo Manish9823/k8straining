@@ -2,7 +2,7 @@
 ## Exercise 1:
 ### Install chocolatey, kubernetes-cli, kubectx, kubens and minikube 
 - Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-- choco install kubernetes-cli kubectx kubens minikube
+- choco install kubernetes-cli kubectx kubens minikube kubernetes-helm
 - kubectx
 - minikube start
 
@@ -44,3 +44,12 @@
 - docker pull nginx:latest
 - docker pull nginx:alpine
 - docker pull nginx:alpine-slim
+
+## Exercise 6:
+### Provision Azure Kubernetes Service 
+- Resource Group: k8stest0009, Region: South Central US
+- AKS Cluster: k8stest0009
+- Cluster Node SKU: D2as_v4 (2 vCPU, 8GB), Node Count: 2-5, ACR: k8stest0009, Basic
+
+## Exercise 7:
+### Explore Dashboards (minikube dashboard, Azure Portal, Lens)
