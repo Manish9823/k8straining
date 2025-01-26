@@ -7,4 +7,19 @@
 - minikube start
 
 ## Exercise 2:
-###
+### Create Namespace via kubectl
+- kubectl create namespace test1
+- kubectl get namespaces
+- kubens
+- kubectl delete namespace test1
+- kubectl get namespaces
+
+## Exercise 3:
+### Namespace creation, retrieval and deletion via yaml file
+- kubectl apply -f test2-namespace.yaml
+- kubectl get namespaces
+- kubens
+- kubectl get namespace test2 -o yaml
+- kubectl delete -f test2-namespace.yaml
+- kubectl get namespaces
+

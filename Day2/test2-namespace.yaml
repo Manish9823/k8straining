@@ -1,0 +1,5 @@
+# Create new namespace test2 using yaml file
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: test2
