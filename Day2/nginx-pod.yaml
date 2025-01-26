@@ -1,0 +1,18 @@
+# Create test3 namespace (Dont need to create namespace, it will create in the pod spec, but goot to be explicit)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: test3
+---
+# Create nginx pod in test3 namespace
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+  namespace: test3
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+    ports:
+    - containerPort: 80
