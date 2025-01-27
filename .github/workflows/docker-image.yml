@@ -21,16 +21,14 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
       
-    - name: Login to ACR
+    - name: Build and Push Image
       uses: docker/login-action@v3
       with:
         registry: ${{ secrets.REGISTRY_LOGIN_SERVER }}
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
       
-    - name: Build the Docker image
-      run: docker build Day2/sampleapi --file Day2/sampleapi/Dockerfile --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapi:$(date +%s)
-
-    - name: Push Docker image
-      run: docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapi:$(date +%s)
-
+    - name: Build the Docker image and push to ACR
+      run: |
+        docker build Day2/sampleapi --file Day2/sampleapi/Dockerfile --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapi:latest
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapi:latest
