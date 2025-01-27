@@ -22,3 +22,4 @@ jobs:
 
     - name: Push Docker image
       run: docker push ${{ ACR_LOGINSERVER }}/sampleapi:$(date +%s)
+
