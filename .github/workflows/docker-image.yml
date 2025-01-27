@@ -15,17 +15,22 @@ jobs:
     steps:
     - name: Checkout git repo
       uses: actions/checkout@v4
+
+    - name: Login via Azure CLI
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
       
     - name: Login to ACR
       uses: docker/login-action@v3
       with:
-        registry: ${{ secrets.ACR_LOGINSERVER }}
-        username: ${{ secrets.ACR_USERNAME }}
-        password: ${{ secrets.ACR_PASSWORD }}
+        registry: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
       
     - name: Build the Docker image
-      run: docker build Day2/sampleapi --file Day2/sampleapi/Dockerfile --tag ${{ secrets.ACR_LOGINSERVER }}/sampleapi:$(date +%s)
+      run: docker build Day2/sampleapi --file Day2/sampleapi/Dockerfile --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapi:$(date +%s)
 
     - name: Push Docker image
-      run: docker push ${{ secrets.ACR_LOGINSERVER }}/sampleapi:$(date +%s)
+      run: docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapi:$(date +%s)
 
