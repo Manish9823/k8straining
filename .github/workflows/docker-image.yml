@@ -15,10 +15,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Login to ACR
-      run: docker login ${{ACR_LOGINSERVER}} -u ${{ACR_USERNAME}} -p ${{ACR_PASSWORD}}
+      run: docker login ${{ ACR_LOGINSERVER }} -u ${{ ACR_USERNAME }} -p ${{ ACR_PASSWORD }}
       
     - name: Build the Docker image
-      run: docker build Day2/sampleapi --file Day2/sampleapi/Dockerfile --tag ${{ACR_LOGINSERVER}}/sampleapi:$(date +%s)
+      run: docker build Day2/sampleapi --file Day2/sampleapi/Dockerfile --tag ${{ ACR_LOGINSERVER }}/sampleapi:$(date +%s)
 
     - name: Push Docker image
-      run: docker push ${{ACR_LOGINSERVER}}/sampleapi:$(date +%s)
+      run: docker push ${{ ACR_LOGINSERVER }}/sampleapi:$(date +%s)
