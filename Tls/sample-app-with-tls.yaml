@@ -2,90 +2,67 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: helloweb
+  name: kuard
 ---
-# clusterissuer-selfsigned.yaml
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: selfsigned
-  namespace: helloweb
-spec:
-  selfSigned: {}
----
-# certificate.yaml
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: www
-  namespace: helloweb
-spec:
-  secretName: www-tls
-  privateKey:
-    rotationPolicy: Always
-  commonName: www.mehmood.us
-  dnsNames:
-    - www.mehmood.us
-  usages:
-    - digital signature
-    - key encipherment
-    - server auth
-  issuerRef:
-    name: selfsigned
-    kind: ClusterIssuer
----
-# deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: helloweb
-  namespace: helloweb
-  labels:
-    app: hello
+  name: kuard
+  namespace: kuard
 spec:
   selector:
     matchLabels:
-      app: hello
-      tier: web
+      app: kuard
+  replicas: 1
   template:
     metadata:
       labels:
-        app: hello
-        tier: web
+        app: kuard
     spec:
       containers:
-      - name: hello-app
-        image: us-docker.pkg.dev/google-samples/containers/gke/hello-app-tls:1.0
+      - image: gcr.io/kuar-demo/kuard-amd64:1
         imagePullPolicy: Always
+        name: kuard
         ports:
-        - containerPort: 8443
-        volumeMounts:
-          - name: tls
-            mountPath: /etc/tls
-            readOnly: true
-        env:
-          - name: TLS_CERT
-            value: /etc/tls/tls.crt
-          - name: TLS_KEY
-            value: /etc/tls/tls.key
-      volumes:
-      - name: tls
-        secret:
-          secretName: www-tls
+        - containerPort: 8080
 ---
-# service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-    name: helloweb
-    annotations:
-        service.beta.kubernetes.io/azure-dns-label-name: lb-5c510ca7-b5f4-4ef9-9cb0-253df87a3235
+  name: kuard
+  namespace: kuard  
 spec:
-    ports:
-    - port: 443
-      protocol: TCP
-      targetPort: 8443
-    selector:
-        app: hello
-        tier: web
-    type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: kuard
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kuard
+  namespace: kuard  
+  annotations:
+    cert-manager.io/issuer: "letsencrypt-staging"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2    
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - apps.mehmood.us
+    secretName: tls-secret
+  rules:
+  - host: apps.mehmood.us
+    http:
+      paths:
+      - path: /kuard(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: kuard
+            port:
+              number: 80
+---
