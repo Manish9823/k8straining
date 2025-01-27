@@ -13,9 +13,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout git repo
+      uses: actions/checkout@v4
+      
     - name: Login to ACR
-      run: docker login ${{ secrets.ACR_LOGINSERVER }} -u ${{ secrets.ACR_USERNAME }} -p ${{ secrets.ACR_PASSWORD }}
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ secrets.ACR_LOGINSERVER }}
+        username: ${{ secrets.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASSWORD }}
       
     - name: Build the Docker image
       run: docker build Day2/sampleapi --file Day2/sampleapi/Dockerfile --tag ${{ secrets.ACR_LOGINSERVER }}/sampleapi:$(date +%s)
