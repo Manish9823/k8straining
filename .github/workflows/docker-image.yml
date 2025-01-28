@@ -1,0 +1,34 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout git repo
+      uses: actions/checkout@v4
+
+    - name: Login via Azure CLI
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+    - name: Build and Push Image
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+      
+    - name: Build the Docker image and push to ACR
+      run: |
+        docker build Day2/sampleapi --file Day2/sampleapi/Dockerfile --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapi:latest
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapi:latest
