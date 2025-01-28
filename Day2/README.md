@@ -53,3 +53,9 @@
 
 ## Exercise 7:
 ### Explore Dashboards (minikube dashboard, Azure Portal, Lens)
+- minikube start
+- minikube dashboard
+- Lens
+
+## Exercise 8:
+### Explore .net9 api and its CI pipeline
