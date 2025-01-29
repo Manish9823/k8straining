@@ -10,12 +10,17 @@
 ### Discover objects which can be namespaced and objects that cannot be namespaced
 - kubectl api-resources --namespaced=false
 - kubectl api-resources --namespaced=true
+- kubectl get nodes -o wide
 
 ## Exercise 3:
 ### Create Namespace via kubectl
 - kubectl create namespace test1
 - kubectl get namespaces
+- kubectl get namespace test1
 - kubens
+- kubens test1
+- kubectl get namespace test1 -o yaml
+- kubectl get namespace test1 -o json
 - kubectl delete namespace test1
 - kubectl get namespaces
 
@@ -32,7 +37,7 @@
 ### Create nginx pod in namespace test3 and explore some common operations on the pod
 ### Including describe, port-forward, exec
 - kubectl apply -f nginx-pod.yaml
-- kubectl get pods -n test3
+- kubectl get pods -n test3 -o wide
 - kubens test3
 - kubectl get pods
 - kubectl describe pod nginx-pod
