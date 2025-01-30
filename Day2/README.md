@@ -64,3 +64,30 @@
 
 ## Exercise 8:
 ### Explore .net9 api and its CI pipeline
+
+## Exercise 9:
+### Deployments, Replica Sets and Pods
+- kubectl apply -f nginx-deployment.yaml
+- kubens test4
+- kubectl get pods --watch
+- kubectl logs {{podname}}
+- kubectl get deployments -o wide
+- kubectl get rs -o wide
+- kubectl scale deployment nginx-deployment --replicas 10
+- kubectl top pod
+- kubectl top node
+- Update version to roll forward
+- kubectl apply -f nginx-deployment.yaml
+- kubectl rollout status deployment/nginx-deployment
+- kubectl get rs -o wide
+- kubectl describe deployments
+- kubectl rollout history deployment/nginx-deployment
+- kubectl rollout history deployment/nginx-deployment --revision 3
+- kubectl rollout undo deployment/nginx-deployment # Undo last deployment (or use --to-revision to a specific revision)
+
+## Exercise 10:
+### Services
+- kubectl apply -f nginx-service-clusterip.yaml
+- kubens test5
+- kubectl get services
+- kubectl describe service nginx-service
