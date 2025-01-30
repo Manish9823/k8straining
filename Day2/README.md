@@ -66,6 +66,10 @@
 ### Explore .net9 api and its CI pipeline
 
 ## Exercise 9:
+### Explore ConfigMaps
+- kubectl apply -f nginx-configmap.yaml
+
+## Exercise 9:
 ### Deployments, Replica Sets and Pods
 - kubectl apply -f nginx-deployment.yaml
 - kubens test4
