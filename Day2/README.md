@@ -68,8 +68,11 @@
 ## Exercise 9:
 ### Explore ConfigMaps
 - kubectl apply -f nginx-configmap.yaml
+- kubectl get configmaps
+- kubectl describe configmaps
+- kubectl get configmaps {{}} -o yaml
 
-## Exercise 9:
+## Exercise 10:
 ### Deployments, Replica Sets and Pods
 - kubectl apply -f nginx-deployment.yaml
 - kubens test4
