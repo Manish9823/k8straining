@@ -8,10 +8,13 @@ WORKDIR /app
 COPY . . 
 
 # Restore dependencies
-RUN dotnet restore
+RUN dotnet restore sampleapi.csproj
 
 # Build the application in release mode
-RUN dotnet publish -c Release -o out
+RUN dotnet build sampleapi.csproj -c Release
+
+# Publish the application to out folder
+RUN dotnet publish sampleapi.csproj -c Release -o out
 
 # Create a runtime image based on the .NET runtime
 FROM mcr.microsoft.com/dotnet/aspnet:9.0-alpine
