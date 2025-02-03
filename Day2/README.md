@@ -96,3 +96,14 @@
 - kubectl apply -f nginx-secret.yaml
 - kubectl get secrets
 - kubectl port-forward pod/{{pod_name}} 8080:80
+
+## Exercist 12:
+### Services (ClusterIP)
+- kubectl apply -f nginx-service-clusterip.yaml
+- kunens test5
+- kubectl get services
+- kubectl run my-shell --rm -i --tty --image ubuntu -- bash
+- apt update -y && apt install curl iputils-ping -y
+- ping nginx-service.test5.svc.cluster.local
+- curl nginx-service.test5.svc.cluster.local
+- kubectl port-forward service/nginx-service 8080:80  
