@@ -66,35 +66,33 @@
 ### Explore .net9 api and its CI pipeline
 
 ## Exercise 9:
-### Explore ConfigMaps
-- kubectl apply -f nginx-configmap.yaml
-- kubectl get configmaps
-- kubectl describe configmaps
-- kubectl get configmaps {{}} -o yaml
-
-## Exercise 10:
 ### Deployments, Replica Sets and Pods
 - kubectl apply -f nginx-deployment.yaml
-- kubens test4
-- kubectl get pods --watch
+- kubectl rollout status deployment/nginx-deployment -n test4
+- kubectl get deployments -n test4
+- kubectl get pods --show-labels
+- kubectl get rs
+- kubectl describe rs {{rsname}}
 - kubectl logs {{podname}}
-- kubectl get deployments -o wide
-- kubectl get rs -o wide
-- kubectl scale deployment nginx-deployment --replicas 10
-- kubectl top pod
-- kubectl top node
-- Update version to roll forward
-- kubectl apply -f nginx-deployment.yaml
-- kubectl rollout status deployment/nginx-deployment
-- kubectl get rs -o wide
-- kubectl describe deployments
+- kubectl edit deployment/nginx-deployment
+- kubectl get rs
 - kubectl rollout history deployment/nginx-deployment
-- kubectl rollout history deployment/nginx-deployment --revision 3
-- kubectl rollout undo deployment/nginx-deployment # Undo last deployment (or use --to-revision to a specific revision)
+- kubectl rollout undo deployment/nginx-deployment
+- kubectl scale deployment nginx-deployment --replicas 10
+- kubectl get pods
 
 ## Exercise 10:
-### Services
-- kubectl apply -f nginx-service-clusterip.yaml
-- kubens test5
-- kubectl get services
-- kubectl describe service nginx-service
+### Configmaps
+- kubectl apply -f nginx-configmap.yaml
+- kubens test10
+- kubectl get configmaps
+- kubectl describe configmap nginx-configmap
+- kubectl port-forward pod/{{podname}} 8080:80
+- kubectl exec -it nginx-deployment-65984d5b69-2gvxc -- sh
+- printenv
+
+## Exercise 11:
+### Secrets
+- kubectl apply -f nginx-secret.yaml
+- kubectl get secrets
+- kubectl port-forward pod/{{pod_name}} 8080:80
