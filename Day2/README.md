@@ -92,12 +92,29 @@
 - printenv
 
 ## Exercise 11:
-### Secrets
+### Creating Secrets
+- kubectl create namespace test-secrets
+- kubens test-secrets
+- kubectl create secret generic db-credentials --from-literal=username=admin --from-literal=password='ChangemeNow123!'
+- kubectl get secrets db-credentials -o yaml
+- kubectl create secret generic db-credentials2 --from-file=username=username.txt --from-file=password=password.txt
+- kubectl get secrets db-credentials2 -o yaml
+
+## Exercise 12:
+### TLS Secrets
+- openssl genpkey -algorithm RSA -out key.pem
+- openssl req -new -x509 -key key.pem -out cert.pem -days 365
+- openssl x509 -text -noout -in cert.pem
+- kubectl create secret tls tls-cert --cert=cert.pem --key=key.pem
+- kubectl get secrets tls-cert -o yaml
+
+## Exercise 13:
+### Using Secrets in workloads
 - kubectl apply -f nginx-secret.yaml
 - kubectl get secrets
 - kubectl port-forward pod/{{pod_name}} 8080:80
 
-## Exercist 12:
+## Exercist 14:
 ### Services (ClusterIP)
 - kubectl apply -f nginx-service-clusterip.yaml
 - kunens test5
