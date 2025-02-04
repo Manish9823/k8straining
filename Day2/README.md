@@ -64,6 +64,8 @@
 
 ## Exercise 8:
 ### Explore .net9 api and its CI pipeline
+- docker build . -t sampleapi:latest
+- Run via docker desktop and navigate to http://localhost:8080/weatherforecast 
 
 ## Exercise 9:
 ### Deployments, Replica Sets and Pods
