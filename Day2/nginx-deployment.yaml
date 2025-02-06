@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:1.25.1 # Image versions 1.25.1, 1.25.5, 1.26.2
+        image: nginx:1.26.2 # Image versions 1.25.1, 1.25.5, 1.26.2
         ports:
         - containerPort: 80
         livenessProbe:
