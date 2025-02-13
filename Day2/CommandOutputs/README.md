@@ -111,3 +111,60 @@ docker pull nginx:alpine-slim
 
 ![image](https://github.com/user-attachments/assets/fc753f76-70c9-4ab1-a1bd-0167581537a8)
 
+
+# Exercise 8:
+
+```docker build . -t sampleapi:latest````
+![image](https://github.com/user-attachments/assets/c6341f2d-d6f6-4d5e-a349-ab663683ec56)
+
+
+# Exercise 9:
+
+```kubectl apply -f nginx-deployment.yaml```
+
+```kubectl rollout status deployment/nginx-deployment -n test4```
+
+```kubectl get deployments -n test4```
+
+```kubectl get pods --show-labels```
+
+```kubectl get rs```
+
+![image](https://github.com/user-attachments/assets/73b00bb1-0f9a-48dd-8832-aa1db3b316e3)
+
+```kubectl describe rs nginx-deployment-69d564d994```
+
+![image](https://github.com/user-attachments/assets/a86ba95f-3909-4ac9-85b6-a1d85828acfb)
+
+```kubectl logs nginx-deployment-69d564d994-66pxl```
+
+![image](https://github.com/user-attachments/assets/8a16fb45-b38b-42b9-b163-52cb5d4e8b79)
+
+```kubectl edit deployment/nginx-deployment```
+
+![Screenshot 2025-02-13 192349](https://github.com/user-attachments/assets/a7f633e6-f83c-4791-aec1-52add6d84d34)
+
+```kubectl get rs```
+
+```kubectl get rs -o wide```
+
+```kubectl rollout history deployment/nginx-deployment```
+
+```kubectl rollout undo deployment/nginx-deployment```
+
+![image](https://github.com/user-attachments/assets/dd06b7c2-ea5e-4f87-8332-55365040acc0)
+
+```kubectl get rs -o wide```
+
+![image](https://github.com/user-attachments/assets/933a3c62-5df1-4fda-af21-43fa57047a65)
+
+```kubectl scale deployment nginx-deployment --replicas 10```
+
+```kubectl get pods -o wide```
+
+![image](https://github.com/user-attachments/assets/7d3e68fa-7df0-44eb-99a6-ea47428a0c3a)
+
+
+
+
+
