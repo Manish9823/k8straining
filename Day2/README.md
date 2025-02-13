@@ -49,6 +49,9 @@
 - docker pull nginx:latest
 - docker pull nginx:alpine
 - docker pull nginx:alpine-slim
+- kubectl top node
+- kubectl top pod
+- kubectl top pod --all-namespaces
 
 ## Exercise 6:
 ### Provision Azure Kubernetes Service 
@@ -64,65 +67,51 @@
 
 ## Exercise 8:
 ### Explore .net9 api and its CI pipeline
-- docker build . -t sampleapi:latest
-- Run via docker desktop and navigate to http://localhost:8080/weatherforecast 
 
 ## Exercise 9:
-### Deployments, Replica Sets and Pods
-- kubectl apply -f nginx-deployment.yaml
-- kubectl rollout status deployment/nginx-deployment -n test4
-- kubectl get deployments -n test4
-- kubectl get pods --show-labels
-- kubectl get rs
-- kubectl describe rs {{rsname}}
-- kubectl logs {{podname}}
-- kubectl edit deployment/nginx-deployment
-- kubectl get rs
-- kubectl rollout history deployment/nginx-deployment
-- kubectl rollout undo deployment/nginx-deployment
-- kubectl scale deployment nginx-deployment --replicas 10
-- kubectl get pods
+### Explore ConfigMaps
+- kubectl apply -f nginx-configmap.yaml
+- kubectl get configmaps
+- kubectl describe configmaps
+- kubectl get configmaps {{}} -o yaml
 
 ## Exercise 10:
-### Configmaps
-- kubectl apply -f nginx-configmap.yaml
-- kubens test10
-- kubectl get configmaps
-- kubectl describe configmap nginx-configmap
-- kubectl port-forward pod/{{podname}} 8080:80
-- kubectl exec -it nginx-deployment-65984d5b69-2gvxc -- sh
-- printenv
+### Deployments, Replica Sets and Pods
+- kubectl apply -f nginx-deployment.yaml
+- kubens test4
+- kubectl get pods --watch
+- kubectl logs {{podname}}
+- kubectl get deployments -o wide
+- kubectl get rs -o wide
+- kubectl scale deployment nginx-deployment --replicas 10
+- kubectl top pod
+- kubectl top node
+- Update version to roll forward
+- kubectl apply -f nginx-deployment.yaml
+- kubectl rollout status deployment/nginx-deployment
+- kubectl get rs -o wide
+- kubectl describe deployments
+- kubectl rollout history deployment/nginx-deployment
+- kubectl rollout history deployment/nginx-deployment --revision 3
+- kubectl rollout undo deployment/nginx-deployment # Undo last deployment (or use --to-revision to a specific revision)
+
+## Exercise 10:
+### Services ClusterIp
+- kubectl apply -f nginx-service-clusterip.yaml
+- kubens test5
+- kubectl get services
+- kubectl describe service nginx-service
 
 ## Exercise 11:
-### Creating Secrets
-- kubectl create namespace test-secrets
-- kubens test-secrets
-- kubectl create secret generic db-credentials --from-literal=username=admin --from-literal=password='ChangemeNow123!'
-- kubectl get secrets db-credentials -o yaml
-- kubectl create secret generic db-credentials2 --from-file=username=username.txt --from-file=password=password.txt
-- kubectl get secrets db-credentials2 -o yaml
+### Services NodePort
+- kubectl apply -f nginx-service-nodeport.yaml
+- kubens test6
+- kubectl get services
+- kubectl describe service nginx-service
 
 ## Exercise 12:
-### TLS Secrets
-- openssl genpkey -algorithm RSA -out key.pem
-- openssl req -new -x509 -key key.pem -out cert.pem -days 365
-- openssl x509 -text -noout -in cert.pem
-- kubectl create secret tls tls-cert --cert=cert.pem --key=key.pem
-- kubectl get secrets tls-cert -o yaml
-
-## Exercise 13:
-### Using Secrets in workloads
-- kubectl apply -f nginx-secret.yaml
-- kubectl get secrets
-- kubectl port-forward pod/{{pod_name}} 8080:80
-
-## Exercist 14:
-### Services (ClusterIP)
-- kubectl apply -f nginx-service-clusterip.yaml
-- kunens test5
+### Services Load Balancer
+- kubectl apply -f nginx-service-loadbalancer.yaml
+- kubens test7
 - kubectl get services
-- kubectl run my-shell --rm -i --tty --image ubuntu -- bash
-- apt update -y && apt install curl iputils-ping -y
-- ping nginx-service.test5.svc.cluster.local
-- curl nginx-service.test5.svc.cluster.local
-- kubectl port-forward service/nginx-service 8080:80  
+- kubectl describe service nginx-service
