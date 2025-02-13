@@ -1,0 +1,28 @@
+# Create test11 namespace (Dont need to create namespace, it will create in the pod spec, but goot to be explicit)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: test11
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx-statefulset
+  namespace: test11
+spec:
+  serviceName: "nginx"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+

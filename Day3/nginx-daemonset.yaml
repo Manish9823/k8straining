@@ -1,0 +1,25 @@
+# Create test11 namespace (Dont need to create namespace, it will create in the pod spec, but goot to be explicit)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: test12
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nginx-daemonset
+  namespace: test12
+  labels:
+    app: nginx-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: nginx-daemonset
+  template:
+    metadata:
+      labels:
+        app: nginx-daemonset
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:latest
