@@ -165,6 +165,23 @@ docker pull nginx:alpine-slim
 ![image](https://github.com/user-attachments/assets/7d3e68fa-7df0-44eb-99a6-ea47428a0c3a)
 
 
+# Exercise 10:
+
+```kubectl describe configmap nginx-configmap```
+
+![image](https://github.com/user-attachments/assets/9ffebed7-6031-413b-9b84-89c35e18bd65)
+
+```kubectl get pods```
+
+```kubectl port-forward pod/nginx-deployment-8b475584-ggf9v 8080:80```
+
+![image](https://github.com/user-attachments/assets/158fd37e-7ddd-4f42-a635-f6a6811c7d87)
+
+```kubectl exec -it nginx-deployment-8b475584-ggf9v -- sh```
+
+```printenv```
+
+![image](https://github.com/user-attachments/assets/5742b006-6657-44c8-8cff-d8588c51f264)
 
 
 
