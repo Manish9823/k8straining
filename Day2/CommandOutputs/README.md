@@ -1,5 +1,5 @@
 
-# Exercise 1:
+# Exercise 1: kubernetes-cli, kubectx, kubens and minikube
 
 `` minikube start ``
 
@@ -9,9 +9,8 @@ Output:
 
 
 
-# Exercise 2:
+# Exercise 2: Namespaces
 
-### Namespaces
 Imagine you're working in a project where you have separate environments like development, staging, and production. You could create namespaces for each environment:
 - dev
 - staging
@@ -27,7 +26,7 @@ Output:
 ![image](https://github.com/user-attachments/assets/9525930b-0700-4297-899f-0069d38cd28e)
 
 
-# Exercise 3: 
+# Exercise 3: kubectl
 
 ``kubectl create namespace test1``
 
@@ -49,7 +48,7 @@ Output:
 
 
 
-# Exercise 4:
+# Exercise 4: Namespace creation, retrieval and deletion via yaml file
 
 ```kubectl apply -f test2-namespace.yaml```
 
@@ -68,7 +67,7 @@ Output:
 ![image](https://github.com/user-attachments/assets/11c75a21-bc45-4bb8-b81a-30d6bc3edae5)
 
 
-# Exercise 5:
+# Exercise 5: Create nginx pod in namespace test3 and explore some common operations on the pod
 
 ```kubectl apply -f nginx-pod.yaml```
 
@@ -101,7 +100,13 @@ docker pull nginx:alpine-slim
 ![image](https://github.com/user-attachments/assets/bbdde442-e5c1-4458-af79-85b046619b34)
 
 
-# Exercise 7:
+## Exercise 6: Provision Azure Kubernetes Service 
+- Resource Group: k8stest0009, Region: South Central US
+- AKS Cluster: k8stest0009
+- Cluster Node SKU: D2as_v4 (2 vCPU, 8GB), Node Count: 2-5, ACR: k8stest0009, Basic
+
+
+# Exercise 7: Explore Dashboards
 
 ```minikube start```
 
@@ -112,13 +117,13 @@ docker pull nginx:alpine-slim
 ![image](https://github.com/user-attachments/assets/fc753f76-70c9-4ab1-a1bd-0167581537a8)
 
 
-# Exercise 8:
+# Exercise 8: Explore .net9 api and its CI pipeline
 
 ```docker build . -t sampleapi:latest````
 ![image](https://github.com/user-attachments/assets/c6341f2d-d6f6-4d5e-a349-ab663683ec56)
 
 
-# Exercise 9:
+# Exercise 9:  Deployments, Replica Sets and Pods
 
 ```kubectl apply -f nginx-deployment.yaml```
 
@@ -165,7 +170,7 @@ docker pull nginx:alpine-slim
 ![image](https://github.com/user-attachments/assets/7d3e68fa-7df0-44eb-99a6-ea47428a0c3a)
 
 
-# Exercise 10:
+# Exercise 10: Configmaps
 
 ```kubectl describe configmap nginx-configmap```
 
@@ -184,6 +189,53 @@ docker pull nginx:alpine-slim
 ![image](https://github.com/user-attachments/assets/5742b006-6657-44c8-8cff-d8588c51f264)
 
 
+# Exercise 11: Creating Secrets
+
+```kubectl create namespace test-secrets```
+
+```kubens test-secrets```
+
+```kubectl create secret generic db-credentials --from-literal=username=admin --from-literal=password='ChangemeNow123!'```
+
+```kubectl get secrets db-credentials -o yaml```
+
+```kubectl create secret generic db-credentials2 --from-file=username=username.txt --from-file=password=password.txt```
+
+```kubectl get secrets db-credentials2 -o yaml```
+
+```kubectl get secrets```
+
+![image](https://github.com/user-attachments/assets/9fcbf2f9-a325-49ce-a3bc-7d4d08aacabc)
 
 
+# Exercise 12: TLS Secrets
+
+```openssl genpkey -algorithm RSA -out key.pem```
+
+```openssl req -new -x509 -key key.pem -out cert.pem -days 365```
+
+```openssl x509 -text -noout -in cert.pem```
+
+![image](https://github.com/user-attachments/assets/4ade2c35-f62e-4a57-853f-b5a111ec4797)
+
+```kubectl create secret tls tls-cert --cert=cert.pem --key=key.pem```
+
+```kubectl get secrets tls-cert -o yaml```
+
+![image](https://github.com/user-attachments/assets/35a209c0-dad6-470d-bbee-36bd7f4cb5dd)
+
+
+# Exercise 13: Using Secrets in workloads
+
+```kubectl apply -f nginx-secret.yaml```
+
+```kubectl get secrets```
+
+```kubens test20```
+
+```kubectl get pods```
+
+```kubectl port-forward pod/{{pod_name}} 8080:80```
+
+![image](https://github.com/user-attachments/assets/0277837f-03ed-4845-bca6-9b71ed1bc77e)
 
