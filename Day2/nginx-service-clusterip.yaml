@@ -1,10 +1,10 @@
-# Create test3 namespace (Dont need to create namespace, it will create in the pod spec, but goot to be explicit)
+# Create test5 namespace (Dont need to create namespace, it will create in the pod spec, but goot to be explicit)
 apiVersion: v1
 kind: Namespace
 metadata:
   name: test5
 ---
-# Create nginx deployment in test4 namespace
+# Create nginx deployment in test5 namespace
 apiVersion: apps/v1
 kind: Deployment
 metadata:
