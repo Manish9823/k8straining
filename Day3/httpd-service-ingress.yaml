@@ -1,0 +1,57 @@
+# Create test21 namespace (Dont need to create namespace, it will create in the pod spec, but goot to be explicit)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: test21
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apache2-deployment
+  namespace: test21
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: apache2
+  template:
+    metadata:
+      labels:
+        app: apache2
+    spec:
+      containers:
+      - name: apache2
+        image: httpd:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apache2-service
+  namespace: test21
+spec:
+  selector:
+    app: apache2
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apache2-ingress
+  namespace: test21
+spec:
+  rules:
+  - host: 'www.example.com'
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: apache2-service
+            port:
+              number: 80
+---
