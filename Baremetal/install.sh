@@ -8,3 +8,8 @@ sudo apt-mark hold kubelet kubeadm kubectl
 sudo systemctl enable --now kubelet
 kubeadm config images list
 kubeadm config images pull
+
+
+# sudo kubeadm init --control-plane-endpoint "dns:6443" --upload-certs --pod-network-cidr 10.244.0.0/16
+# kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+
