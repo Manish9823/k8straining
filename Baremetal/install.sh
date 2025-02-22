@@ -11,6 +11,14 @@ kubeadm config images pull
 
 
 # sudo kubeadm init --control-plane-endpoint "dns:6443" --upload-certs --pod-network-cidr 10.244.0.0/16
+# sudo kubeadm init --pod-network-cidr 10.244.0.0/16
+
 # export KUBECONFIG=/etc/kubernetes/admin.conf
 # kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
 
+  kubeadm join kube-apiserver.mehmood.us:6443 --token u5duvt.1aq30kr9vjboqznk \
+        --discovery-token-ca-cert-hash sha256:028bb9283dcd806a9a8eab1127d8a2886d4a2304946a61d3c8d47bbd352dd846 \
+        --control-plane --certificate-key d29a3c7e107871fa03c32dc5c65960733b21800c6e5b1c3f145c072861c55044
+
+kubeadm join kube-apiserver.mehmood.us:6443 --token u5duvt.1aq30kr9vjboqznk \
+        --discovery-token-ca-cert-hash sha256:028bb9283dcd806a9a8eab1127d8a2886d4a2304946a61d3c8d47bbd352dd846        
