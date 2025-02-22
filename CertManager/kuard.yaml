@@ -45,13 +45,13 @@ metadata:
   name: kuard
   namespace: kuard
   annotations: 
-    #cert-manager.io/issuer: "letsencrypt-staging"
+    cert-manager.io/issuer: "letsencrypt-prod"
 spec:
   ingressClassName: nginx
   tls:
   - hosts:
     - apps.mehmood.us
-    secretName: selfsigned-cert-tls
+    secretName: letsencrypt-prod-tls
   rules:
   - host: apps.mehmood.us
     http:
