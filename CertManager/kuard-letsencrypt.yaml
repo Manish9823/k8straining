@@ -4,27 +4,25 @@ kind: Namespace
 metadata:
   name: kuard
 ---
-# Create the self-signed issuer and certificate
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
-  name: kuard-selfsigned-issuer
+  name: letsencrypt-prod-issuer
   namespace: kuard
 spec:
-  selfSigned: {}
----
-# Create the self-signed certificate
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: selfsigned-cert
-  namespace: kuard
-spec:
-  dnsNames:
-    - apps.mehmood.us
-  secretName: selfsigned-cert-tls
-  issuerRef:
-    name: kuard-selfsigned
+  acme:
+    # The ACME server URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: altaf.mehmood@gmail.com
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    # Enable the HTTP-01 challenge provider
+    solvers:
+      - http01:
+          ingress:
+            ingressClassName: nginx
 ---
 # Create the deployment
 apiVersion: apps/v1
@@ -73,13 +71,13 @@ metadata:
     nginx.ingress.kubernetes.io/ingress.class: "nginx"  # Make sure ingress-nginx controller is used
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
-    cert-manager.io/issuer: "kuard-selfsigned-issuer"
+    cert-manager.io/issuer: "letsencrypt-prod-issuer"
 spec:
   ingressClassName: nginx
   tls:
   - hosts:
     - apps.mehmood.us
-    secretName: kuard-selfsigned-cert-tls
+    secretName: kuard-letsencrypt-prod-cert-tls
   rules:
   - host: apps.mehmood.us
     http:
