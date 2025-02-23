@@ -1,8 +1,10 @@
+# Create new namespace
 apiVersion: v1
 kind: Namespace
 metadata:
   name: elk
 ---
+# Create Elasticsearch using the eck operator. 1 node with anonymous user.
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
@@ -21,6 +23,7 @@ spec:
           roles: superuser 
           authz_exception: true
 ---
+# Create TLS certificate issuer for letsencrypt
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
@@ -56,10 +59,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - elk.mehmood.us
+      - apps.mehmood.us
       secretName: ingress-tls-cert-secret 
   rules:
-  - host: elk.mehmood.us  
+  - host: apps.mehmood.us  
     http:
       paths:
       - path: /es(/|$)(.*)
@@ -83,7 +86,7 @@ spec:
     name: logs
   config:
     server.basePath: /kb
-    server.publicBaseUrl: https://elk.mehmood.us/kb
+    server.publicBaseUrl: https://apps.mehmood.us/kb
 ---
 # Create ingress route
 apiVersion: networking.k8s.io/v1
@@ -100,10 +103,10 @@ spec:
   ingressClassName: nginx 
   tls:
     - hosts:
-      - elk.mehmood.us
+      - apps.mehmood.us
       secretName: ingress-tls-cert-secret 
   rules:
-  - host: elk.mehmood.us  
+  - host: apps.mehmood.us  
     http:
       paths:
       - path: /kb(/|$)(.*)

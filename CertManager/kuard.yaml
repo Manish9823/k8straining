@@ -1,9 +1,32 @@
-# create namespace kuard
+# Create namespace kuard
 apiVersion: v1
 kind: Namespace
 metadata:
   name: kuard
 ---
+# Create the self-signed issuer and certificate
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: kuard-selfsigned
+  namespace: kuard
+spec:
+  selfSigned: {}
+---
+# Create the self-signed certificate
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: selfsigned-cert
+  namespace: kuard
+spec:
+  dnsNames:
+    - apps.mehmood.us
+  secretName: selfsigned-cert-tls
+  issuerRef:
+    name: kuard-selfsigned
+---
+# Create the deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,6 +49,7 @@ spec:
         ports:
         - containerPort: 8080
 ---
+# Create the service
 apiVersion: v1
 kind: Service
 metadata:
@@ -39,6 +63,7 @@ spec:
   selector:
     app: kuard
 ---
+# Create the ingress route
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -64,22 +89,3 @@ spec:
             port:
               number: 80
 ---
-apiVersion: cert-manager.io/v1
-kind: Issuer
-metadata:
-  name: kuard-selfsigned
-  namespace: kuard
-spec:
-  selfSigned: {}
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: selfsigned-cert
-  namespace: kuard
-spec:
-  dnsNames:
-    - apps.mehmood.us
-  secretName: selfsigned-cert-tls
-  issuerRef:
-    name: kuard-selfsigned
