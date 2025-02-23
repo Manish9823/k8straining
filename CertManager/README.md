@@ -49,3 +49,32 @@
 - kubectl apply -f kuard-letsencrypt.yaml
 - kubectl get certificates
 - curl https://apps.mehmood.us/kuard
+
+# Exercise 7
+## Elastic Stack (Elasticsearch and Kibana)
+- kubectl create -f https://download.elastic.co/downloads/eck/2.16.1/crds.yaml
+- kubectl apply -f https://download.elastic.co/downloads/eck/2.16.1/operator.yaml
+- kubectl -n elastic-system get all
+- kubectl get nodes -o wide
+- kubectl apply -f elasticsearch.yaml
+- Observe node pool auto scale operation
+- kubectl get nodes -o wide
+- kubens elk
+- kubectl get es
+- kubectl get kb
+- kubectl get all
+- kubectl get pods --watch
+- kubectl top pod
+- kubectl top node
+- kubectl get pvc
+- kubectl get pv
+- kubectl get sc
+- kubectl get secrets/logs-es-elastic-user -o yaml
+- base64 -d 
+
+# Exercise 8
+## RabbitMQ
+- kubectl apply -f rabbitmq.yaml
+- kubectl get nodes
+- kubectl get pvc
+- kubectl get statefulset

@@ -14,7 +14,7 @@ spec:
   version: 8.17.2
   nodeSets:
   - name: default
-    count: 1
+    count: 3
     config:
       node.store.allow_mmap: false
       xpack.security.authc:
@@ -81,7 +81,7 @@ metadata:
   namespace: elk
 spec:
   version: 8.17.2
-  count: 1
+  count: 2
   elasticsearchRef:
     name: logs
   config:
