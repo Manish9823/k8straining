@@ -1,3 +1,7 @@
+# Exercise 0
+## PVC Demo
+- kubectl apply -f pvc-nginx.yaml
+
 # Exercise 1
 ## Install Cert-manager
 - kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.17.0/cert-manager.yaml
