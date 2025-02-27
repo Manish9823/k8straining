@@ -18,3 +18,9 @@
 - kubectl get jobs
 - kubectl get pods
 - kubectl logs {{podname}}
+
+# Exercise 4:
+### Install the ingress-nginx Ingress controller
+- kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.12.0/deploy/static/provider/cloud/deploy.yaml
+- kubens ingress-nginx
+- kubectl get all

@@ -1,0 +1,118 @@
+# Create new namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: elk
+---
+# Create Elasticsearch using the eck operator. 1 node with anonymous user.
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: logs
+  namespace: elk
+spec:
+  version: 8.17.2
+  nodeSets:
+  - name: default
+    count: 3
+    config:
+      node.store.allow_mmap: false
+      xpack.security.authc:
+        anonymous:
+          username: anonymous_user 
+          roles: superuser 
+          authz_exception: true
+---
+# Create TLS certificate issuer for letsencrypt
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: letsencrypt-prod
+  namespace: elk
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: altaf.mehmood@gmail.com
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    # Enable the HTTP-01 challenge provider
+    solvers:
+      - http01:
+          ingress:
+            ingressClassName: nginx
+---
+# Create ingress route
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: logs-es-ingress
+  namespace: elk
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    nginx.ingress.kubernetes.io/use-regex: "true"    
+    nginx.ingress.kubernetes.io/rewrite-target: /$2 
+    cert-manager.io/issuer: "letsencrypt-prod"    
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - apps.mehmood.us
+      secretName: ingress-tls-cert-secret 
+  rules:
+  - host: apps.mehmood.us  
+    http:
+      paths:
+      - path: /es(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: logs-es-http
+            port: 
+              number: 9200
+---
+# Create kibana
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: logs
+  namespace: elk
+spec:
+  version: 8.17.2
+  count: 2
+  elasticsearchRef:
+    name: logs
+  config:
+    server.basePath: /kb
+    server.publicBaseUrl: https://apps.mehmood.us/kb
+---
+# Create ingress route
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: logs-kb-ingress
+  namespace: elk
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    nginx.ingress.kubernetes.io/use-regex: "true"    
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    cert-manager.io/issuer: "letsencrypt-prod"    
+spec:
+  ingressClassName: nginx 
+  tls:
+    - hosts:
+      - apps.mehmood.us
+      secretName: ingress-tls-cert-secret 
+  rules:
+  - host: apps.mehmood.us  
+    http:
+      paths:
+      - path: /kb(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: logs-kb-http
+            port: 
+              number: 5601

@@ -1,0 +1,94 @@
+# Create namespace kuard
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kuard
+---
+# Create the self-signed issuer and certificate
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: kuard-selfsigned-issuer
+  namespace: kuard
+spec:
+  selfSigned: {}
+---
+# Create the self-signed certificate
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: selfsigned-cert
+  namespace: kuard
+spec:
+  dnsNames:
+    - apps.mehmood.us
+  secretName: selfsigned-cert-tls
+  issuerRef:
+    name: kuard-selfsigned
+---
+# Create the deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuard
+  namespace: kuard
+spec:
+  selector:
+    matchLabels:
+      app: kuard
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kuard
+    spec:
+      containers:
+      - image: gcr.io/kuar-demo/kuard-amd64:1
+        imagePullPolicy: Always
+        name: kuard
+        ports:
+        - containerPort: 8080
+---
+# Create the service
+apiVersion: v1
+kind: Service
+metadata:
+  name: kuard
+  namespace: kuard
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: kuard
+---
+# Create the ingress route
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kuard
+  namespace: kuard
+  annotations: 
+    nginx.ingress.kubernetes.io/ingress.class: "nginx"  # Make sure ingress-nginx controller is used
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    cert-manager.io/issuer: "kuard-selfsigned-issuer"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - apps.mehmood.us
+    secretName: kuard-selfsigned-cert-tls
+  rules:
+  - host: apps.mehmood.us
+    http:
+      paths:
+      - path: /kuard(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: kuard
+            port:
+              number: 80
+---
