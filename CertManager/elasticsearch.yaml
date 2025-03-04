@@ -85,8 +85,8 @@ spec:
   elasticsearchRef:
     name: logs
   config:
-    server.basePath: /kb
-    server.publicBaseUrl: https://apps.mehmood.us/kb
+    # server.basePath: /kb
+    # server.publicBaseUrl: https://apps.mehmood.us/kb
 ---
 # Create ingress route
 apiVersion: networking.k8s.io/v1
