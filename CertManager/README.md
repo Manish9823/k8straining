@@ -86,3 +86,8 @@
 - kubectl get nodes
 - kubectl get pvc
 - kubectl get statefulset
+## RabbitMQ 2 TLS port (self-signed cert)
+## 5671     ==> AMQPS port (AMQP with TLS)
+## 15671    ==> Management UI port
+## Lets Encrypt Cert 
+## Ingress
