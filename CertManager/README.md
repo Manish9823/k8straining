@@ -56,6 +56,7 @@
 
 # Exercise 7
 ## Elastic Stack (Elasticsearch and Kibana)
+## https://www.elastic.co/downloads/elastic-cloud-kubernetes
 - kubectl create -f https://download.elastic.co/downloads/eck/2.16.1/crds.yaml
 - kubectl apply -f https://download.elastic.co/downloads/eck/2.16.1/operator.yaml
 - kubectl -n elastic-system get all
@@ -78,7 +79,15 @@
 
 # Exercise 8
 ## RabbitMQ
+## https://www.rabbitmq.com/kubernetes/operator/operator-overview
+- kubectl apply -f "https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml"
+- kubectl apply -f 
 - kubectl apply -f rabbitmq.yaml
 - kubectl get nodes
 - kubectl get pvc
 - kubectl get statefulset
+## RabbitMQ 2 TLS port (self-signed cert)
+## 5671     ==> AMQPS port (AMQP with TLS)
+## 15671    ==> Management UI port
+## Lets Encrypt Cert 
+## Ingress

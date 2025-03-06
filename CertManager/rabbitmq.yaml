@@ -33,7 +33,7 @@ metadata:
   name: message-broker
   namespace: rabbitmq
 spec:
-  replicas: 1
+  replicas: 3
   tls:
     secretName: selfsigned-cert-tls  
   rabbitmq:

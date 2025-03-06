@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: apache2
-        image: httpd:latest
+        image: nginx:latest
 ---
 apiVersion: v1
 kind: Service
@@ -42,12 +42,14 @@ kind: Ingress
 metadata:
   name: apache2-ingress
   namespace: test21
+  annotations:
+    nginx.ingress.kubernetes.io/ingress.class: "nginx"  # Make sure ingress-nginx controller is used  
 spec:
   rules:
-  - host: 'www.example.com'
+  - host: apps.mehmood.us
     http:
       paths:
-      - path: /
+      - path: / 
         pathType: Prefix
         backend:
           service:
